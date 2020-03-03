@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BTRS - Sold out Tickets</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    </head>
+    <body>
+        <%- include('../layouts/header', {logged:logged}) %>
+        <table class="main">
+            <tbody>
+                <tr>
+                    <td>
+                        <%- include('../layouts/sidebar', {logged:logged}) %>
+                    </td>
+                    <td>
+                        <table style="width:100%; margin-bottom: 10px;">
+                            <tr>
+                                <td><h3 style="margin:0">Sold out Tickets</h3></td>
+                                <td style="width:10%; text-align:right"></td>
+                            </tr>
+                        </table>
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    <select name="operator" style="width: 100%;">
+                                        <option value="">Select Bus Operator</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="pnr" placeholder="PNR" style="width: 100%;"></td>
+                                <td><input type="text" name="mobile" placeholder="Mobile No" style="width: 100%;"></td>
+                                <td><input type="text" name="from" placeholder="From" style="width: 100%;"></td>
+                                <td><input type="text" name="to" placeholder="To" style="width: 100%;"></td>
+                                <td><input type="datetime-local" name="from" placeholder="From" style="width: 100%;"></td>
+                                <td><button type="submit" style="width: 100%">Search</button></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <table class="list">
+                            <thead>
+                                <tr>
+                                    <th>Operator (Bus Type)</th>
+                                    <th>Departure</th>
+                                    <th>Arrival</th>
+                                    <th>Seats Available</th>
+                                    <th>Fare</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">No results found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

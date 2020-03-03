@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BTRS - Edit Bus Schedule</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    </head>
+    <body>
+        <%- include('../../layouts/header', {logged:logged}) %>
+        <table class="main">
+            <tbody>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <table style="width:100%; margin-bottom: 10px;">
+                            <tr>
+                                <td><h3 style="margin:0">Edit Bus Schedule</h3></td>
+                                <td style="width:15%; text-align:right">[ <a href="/system/busschedule">Cancel</a> ]</td>
+                            </tr>
+                        </table>
+
+                        <form method="get">
+                            <table class="form">
+                                <tr>
+                                    <td>Operator</td><td>:</td><td>
+                                        <select name="operator">
+                                            <option value="">Select Bus Operator</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bus</td><td>:</td><td>
+                                        <select name="bus">
+                                            <option value="">Select Bus Operator First</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Boarding</td><td>:</td><td>
+                                        <select name="boarding">
+                                            <option value="">Select Bus Operator First</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>From</td><td>:</td><td><input type="text" name="from" placeholder="Enter Route (From)"></td>
+                                </tr>
+                                <tr>
+                                    <td>To</td><td>:</td><td><input type="text" name="to" placeholder="Enter Route (To)"></td>
+                                </tr>
+                                <tr>
+                                    <td>Departure</td><td>:</td><td><input type="datetime-local" name="departure"></td>
+                                </tr>
+                                <tr>
+                                    <td>Arrival</td><td>:</td><td><input type="datetime-local" name="departure"></td>
+                                </tr>
+                                <tr>
+                                    <td></td><td></td><td><input type="submit" value="Save Changes"></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

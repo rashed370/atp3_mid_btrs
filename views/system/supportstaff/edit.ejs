@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BTRS - Edit Support Staff</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    </head>
+    <body>
+        <%- include('../../layouts/header', {logged:logged}) %>
+        <table class="main">
+            <tbody>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <table style="width:100%; margin-bottom: 10px;">
+                            <tr>
+                                <td><h3 style="margin:0">Edit Support Staff</h3></td>
+                                <td style="width:15%; text-align:right">[ <a href="/system/supportstaff">Cancel</a> ]</td>
+                            </tr>
+                        </table>
+
+                        <form method="get">
+                            <table class="form">
+                                <tr>
+                                    <td>Name</td><td>:</td><td><input type="text" name="name" placeholder="Enter full name"></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td><td>:</td><td><input type="email" name="email" placeholder="Enter email address"></td>
+                                </tr>
+                                <tr>
+                                    <td>Password</td><td>:</td><td><input type="password" name="password" placeholder="Enter a new password"></td>
+                                </tr>
+                                <tr>
+                                    <td>Password</td><td>:</td><td><input type="password" name="repassword" placeholder="Retype the new password"></td>
+                                </tr>
+                                <tr>
+                                    <td></td><td></td><td><input type="submit" value="Save Changes"></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

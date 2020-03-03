@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BTRS - Manage Bus Counters</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    </head>
+    <body>
+        <%- include('../../layouts/header', {logged:logged}) %>
+        <table class="main">
+            <tbody>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <table style="width:100%; margin-bottom: 10px;">
+                            <tr>
+                                <td><h3 style="margin:0">Manage Bus Counters</h3></td>
+                                <td style="width:10%; text-align: right;">[ <a href="/system/buscounter/add">Add</a> ]</td>
+                            </tr>
+                        </table>
+                        <table class="list">
+                            <thead>
+                                <tr>
+                                    <th>Operator (Bus Type)</th>
+                                    <th>Departure</th>
+                                    <th>Arrival</th>
+                                    <th>Reserved Seats</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">No results found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

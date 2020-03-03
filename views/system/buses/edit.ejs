@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BTRS - Edit Bus</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    </head>
+    <body>
+        <%- include('../../layouts/header', {logged:logged}) %>
+        <table class="main">
+            <tbody>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <table style="width:100%; margin-bottom: 10px;">
+                            <tr>
+                                <td><h3 style="margin:0">Edit Bus</h3></td>
+                                <td style="width:15%; text-align:right">[ <a href="/system/buses">Cancel</a> ]</td>
+                            </tr>
+                        </table>
+
+                        <form method="get">
+                            <table class="form">
+                                <tr>
+                                    <td>Operator</td><td>:</td><td>
+                                        <select name="operator">
+                                            <option value="">Select Bus Operator</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Name/Model</td><td>:</td><td><input type="text" name="name" placeholder="Enter bus name/model"></td>
+                                </tr>
+                                <tr>
+                                    <td>Registration No.</td><td>:</td><td><input type="text" name="regno" placeholder="Enter registration number"></td>
+                                </tr>
+                                <tr>
+                                    <td>Seat (Column).</td><td>:</td><td><input type="text" name="column" placeholder="Enter columns of seat"></td>
+                                </tr>
+                                <tr>
+                                    <td>Seat (Row)</td><td>:</td><td><input type="text" name="row" placeholder="Enter rows of seat"></td>
+                                </tr>
+                                <tr>
+                                    <td></td><td></td><td><input type="submit" value="Save Changes"></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

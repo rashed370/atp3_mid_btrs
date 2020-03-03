@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Bus Ticket Reservation System</title>
+        <!-- Bootstrap core CSS-->
+        <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="/assets/css/sb-admin.css" rel="stylesheet">
+    </head>
+    <body class="bg-dark">
+        <div class="wrapper">
+            <section class="hero">
+              <header class="bg-light">
+                <div class="container">
+                  <nav class="navbar navbar-light">
+                    <a href="#" class="navbar-brand mb-0">BTRS</a>
+                    <div id="headerNav">
+                      <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                          <a class="nav-link" href="/">Search</a>
+                        </li>
+          
+                        <li class="nav-item active">
+                          <a class="nav-link" href="/printverify">Print/Verify</a>
+                        </li>
+          
+                        <li class="nav-item">
+                          <a class="nav-link" href="/cancel">Cancel</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                          <a class="nav-link" href="/supportticket">Support Ticket</a>
+                        </li>
+          
+                        <li class="nav-item">
+                          <a class="nav-link" href="/login">Login</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </nav>
+                </div>
+              </header>
+            </section>
+          
+            <section id="sec-about" class="sec-about pt-5 pb-5">
+              <div class="container">
+                    <div class="card">
+						<div class="card-header">
+							<i class="fa fa-print"></i> Print/Verify Ticket Purchase
+						</div>
+						<div class="card-body">
+							<form method="post">
+								<div class="form-row align-items-center mb-3">
+								  	<div class="col-sm-5">
+										<input type="text" class="form-control" placeholder="Enter PNR number Here">
+								  	</div>
+								  	<div class="col-sm-5">
+										<input type="text" class="form-control" placeholder="Enter Reservation Mobile Number Here">
+								  	</div>
+								  	<div class="col-sm-2">
+										<button type="submit" class="btn btn-primary w-100">Find</button>
+								  	</div>
+								</div>
+							</form>
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped mb-0" id="dataTable" width="100%" cellspacing="0">
+									<thead>
+                                        <tr>
+                                            <th>Operator (Bus Type)</th>
+                                            <th>Departure</th>
+                                            <th>Arrival</th>
+                                            <th>Reserved Seats</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5">No results found</td>
+                                        </tr>
+                                    </tbody> 
+								</table>
+							</div>
+						</div>
+					</div>
+              </div>
+            </section>
+          </div>
+    </body>
+</html>
