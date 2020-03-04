@@ -32,7 +32,6 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Company</th>
                                         <th>Registered</th>
                                         <th>Action</th>
                                     </tr>
@@ -43,7 +42,6 @@
                                     <tr>
                                         <td><%= supportstaff.name %></td>
                                         <td><%= supportstaff.email %></td>
-                                        <td><%= supportstaff.company %></td>
                                         <td  style="text-align: center;"><%= supportstaff.registered.toLocaleString('en-US', {
                                             weekday: 'short',
                                             month: 'long',
@@ -53,7 +51,7 @@
                                             minute: '2-digit',
                                             timeZone: 'Asia/Dhaka'
                                         }) %></td>
-                                        <td style="text-align: center;"><a href="/system/supportstaff/edit/<%= supportstaff.id %>" class="btn btn-primary btn-sm">Edit</a> <a class="btn btn-danger btn-sm" href="/system/supportstaff/remove/<%= unvalid.id %>">Remove</a></td>
+                                        <td style="text-align: center;"><a href="/system/supportstaff/edit/<%= supportstaff.id %>" class="btn btn-primary btn-sm">Edit</a> <a class="btn btn-danger btn-sm" href="/system/supportstaff/remove/<%= supportstaff.id %>">Remove</a></td>
                                     </tr> 
                                     <% }) %>
                                     <% } else { %>

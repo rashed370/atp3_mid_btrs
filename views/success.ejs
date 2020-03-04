@@ -1,20 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
         <title><%= title %> - Success</title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+        <!-- Bootstrap core CSS-->
+        <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="/assets/css/sb-admin.css" rel="stylesheet">
     </head>
-    <body>
-        <table style="width: 100%; border: 1px solid #000">
-            <tr>
-                <td style="text-align: right"><a href="/">Search Tickets</a></td>
-            </tr>
-        </table>
-        <h1><%= header %></h1>
-        <% msgs.forEach(msg => { %>
-        <p><%= msg %></p>
-        <% }) %>
-        <br>
-        <a href="<%= goback[0] %>"><%= goback[1] %></a>
+
+    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+        <%- include('/layouts/header', {logged:logged}) %>  
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <%= header %>
+                    </div>
+                    <div class="card-body">
+                        <% msgs.forEach(msg => { %>
+                        <p><%= msg %></p>
+                        <% }) %>
+                        <br>
+                        <a href="<%= goback[0] %>"><%= goback[1] %></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid-->
+            <!-- /.content-wrapper-->
+            <%- include('../layouts/footer', {logged:logged}) %>
+            <!-- Bootstrap core JavaScript-->
+        </div>
+        <script src="/assets/vendor/jquery/jquery.min.js"></script>
+        <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="/assets/js/sb-admin.min.js"></script>   
     </body>
 </html>
