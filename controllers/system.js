@@ -239,10 +239,96 @@ router.get('/supportstaff/edit/:id', (request, response) => {
                 if(result.role=='supportstaff') {
                     response.render('system/supportstaff/edit', {logged: request.user, supportstaff: result});
                 } else {
-                    response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found 2'], goback: '/system/supportstaff'});
+                    response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found'], goback: '/system/supportstaff'});
                 }
             } else {
-                response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found 1'], goback: '/system/supportstaff'});
+                response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found'], goback: '/system/supportstaff'});
+            } 
+        });
+    }
+
+    response.redirect('/system'); 
+});
+
+router.post('/supportstaff/edit/:id', [
+    check('name','Name is required').not().isEmpty().trim().escape(),
+    check('email', 'Email is required').not().isEmpty().trim().escape().isEmail().normalizeEmail().withMessage('Invalid Email'),
+], (request, response) => {
+    const errors = validationResult(request);
+    const converted = [];
+
+    if(errors && errors.errors) {
+        errors.errors.forEach(error => {
+            converted.push(error.msg);
+        });
+    }
+
+    if(request.user.role=='admin') {
+        return Users.getById(request.params.id, result => {
+            if(result && result.role!=null) {
+                if(result.role=='supportstaff') {
+                    if(!(converted.length>0)) {
+                        let userdata = {
+                            email : request.body.email,
+                            password : request.body.password!='' ? request.body.password : result.password,
+                            name : request.body.name,
+                            company : result.company,
+                            operator : result.operator,
+                            id : result.id
+                        }
+                        if(result.email!=request.body.email) {
+                            Users.getByEmail(request.body.email, user => {
+                                if(user==null) {
+                                    Users.update(userdata, result => {
+                                        if(result) {
+                                            response.render('system/success', {logged: request.user, title: 'Edit Support Staff', header: 'Update Successfull', msgs: ['Information updated successfully'], goback: ['/system/supportstaff', 'Go Back to Support Staff']});
+                                        } else {
+                                            response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['Something went wrong. Please try again'], goback: '/system/supportstaff/edit/'+request.params.id});
+                                        }
+                                    });
+                                } else {
+                                    response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['Email Already Exists'], goback: '/system/supportstaff/edit/'+request.params.id});
+                                }
+                            });
+                        } else {
+                            Users.update(userdata, result => {
+                                if(result) {
+                                    response.render('system/success', {logged: request.user, title: 'Edit Support Staff', header: 'Update Successfull', msgs: ['Information updated successfully'], goback: ['/system/supportstaff', 'Go Back to Support Staff']});
+                                } else {
+                                    response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['Something went wrong. Please try again'], goback: '/system/supportstaff/edit/'+request.params.id});
+                                }
+                            });
+                        } 
+                    } else {
+                        response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: converted, goback: '/system/supportstaff/edit/'+request.params.id});
+                    } 
+                } else {
+                    response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found'], goback: '/system/supportstaff'});
+                }
+            } else {
+                response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found'], goback: '/system/supportstaff'});
+            } 
+        });
+    }
+
+    response.redirect('/system'); 
+});
+
+router.get('/supportstaff/remove/:id', (request, response) => {
+    if(request.user.role=='admin') {
+        return Users.getById(request.params.id, result => {
+            if(result && result.role!=null) {
+                if(result.role=='supportstaff') {
+                    Users.delete(result.id, status=> {
+                        if(status) {
+                            response.render('system/success', {logged: request.user, title: 'Delete Support Staff', header: 'Update Successfull', msgs: [result.name + ' removed successfully'], goback: ['/system/supportstaff', 'Go Back to Support Staff']});
+                        }
+                    });
+                } else {
+                    response.render('system/errors', {logged: request.user, title: 'Delete Support Staff', header: 'Error Occured', errors: ['User not found'], goback: '/system/supportstaff'});
+                }
+            } else {
+                response.render('system/errors', {logged: request.user, title: 'Delete Support Staff', header: 'Error Occured', errors: ['User not found'], goback: '/system/supportstaff'});
             } 
         });
     }
