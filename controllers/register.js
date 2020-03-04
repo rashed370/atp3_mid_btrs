@@ -12,8 +12,11 @@ router.post('/', [
     check('company', 'Company Name is required').not().isEmpty().trim().escape(),
     check('email', 'Email is required').not().isEmpty().trim().escape().isEmail().normalizeEmail().withMessage('Invalid Email'),
     check('password', 'Password is required').not().isEmpty().trim().escape(),
-    check('repassword', 'Password confirmation does not match password').custom((value, { req }) => {
-        return value !== req.params.password;
+    check('repassword').custom((value, { req }) => {
+        if( value !== req.body.password ) {
+            throw new Error('Password confirmation does not match password')
+        }
+        return true;
     })
 ], (request, response) => {
     const errors = validationResult(request);

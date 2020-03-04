@@ -96,3 +96,13 @@ exports.getUnvalidated = callback => {
         callback(null);
     });
 }
+
+exports.getSupportStaffs = callback => {
+    const sql = "SELECT * FROM `users` WHERE `role` = ? AND `validated` = ?";
+    database.getResult(sql, ['supportstaff', 1], result => {
+        if(result && result.length>0) 
+        callback(result)
+        else 
+        callback(null);
+    });
+}
