@@ -53,47 +53,64 @@
               <div class="container">
                     <div class="card">
 						<div class="card-header">
-                            <i class="fa fa-life-ring"></i> Support Tickets
-                            <a href="/supportticket/add" class="btn btn-success btn-sm pull-right">Add New</a>
-						</div>
+							<i class="fa fa-life-ring"></i> Support Tickets
+							<% if(addbool){ %>
+							<a href="/supportticket/add" class="btn btn-success btn-sm pull-right">Add New</a>
+							<% } %> 
+            			</div>
+         
 						<div class="card-body">
-							<form method="post">
+             				 <% if(mobilebool){ %>
+							<form method="post" action="/supportticket/mobile">
 								<div class="form-row align-items-center mb-3">
 								  	<div class="col-sm-9">
-										<input type="text" class="form-control" placeholder="Enter mobile number here">
+										<input type="text" name="mobile" class="form-control" placeholder="Enter mobile number here">
 								  	</div>
 								  	<div class="col-sm-3">
 										<button type="submit" class="btn btn-primary w-100">Login</button>
 								  	</div>
 								</div>
-                            </form>
-                            <form method="post">
+              				</form>
+							<% } %>          
+							<% if(otpbool){ %>  
+								<p>Your this <%= verifynumber %> phone number we sent the 6 digit OTP code. </p>   
+							<form method="post" action="/supportticket/otp">
 								<div class="form-row align-items-center mb-3">
+								
 								  	<div class="col-sm-9">
-										<input type="text" class="form-control" placeholder="Enter OTP here">
+										<input type="text" name="otp" class="form-control" placeholder="Enter OTP here">
 								  	</div>
 								  	<div class="col-sm-3">
 										<button type="submit" class="btn btn-primary w-100">Login</button>
 								  	</div>
 								</div>
 							</form>
+							<p>If you want to change your phone number <a href="/supportticket/changephone">click here</a> </p>
+							<%} %>
 							<div class="table-responsive">
+                			<% if(tablebool){ %>  
 								<table class="table table-bordered table-striped mb-0" id="dataTable" width="100%" cellspacing="0">
 									<thead>
-                                        <tr>
-                                            <th>Subject</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="3">No results found</td>
-                                        </tr>
-                                    </tbody> 
+                    <tr>
+                        <th>Subject</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <td colspan="3">No results found</td>
+                    </tr>
+                  </tbody> 
 								</table>
+								<% } %>
 							</div>
-						</div>
+            </div>
+            <% if(!otpbool && !mobilebool) { %>
+            <div class="card-footer">
+              <a href="/supportticket/changephone">Change Mobile Number</a>
+            </div>
+            <% } %>
 					</div>
               </div>
             </section>

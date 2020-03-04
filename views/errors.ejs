@@ -14,34 +14,73 @@
         <!-- Custom styles for this template-->
         <link href="/assets/css/sb-admin.css" rel="stylesheet">
     </head>
-
-    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-        <%- include('layouts/header', {logged:logged}) %>  
-        <div class="content-wrapper">
-            <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <%= header %>
+    <body class="bg-dark">
+        <div class="wrapper">
+            <section class="hero">
+              <header class="bg-light">
+                <div class="container">
+                  <nav class="navbar navbar-light">
+                    <a href="#" class="navbar-brand mb-0">BTRS</a>
+                    <div id="headerNav">
+                      <ul class="nav navbar-nav">
+                        <% if(active=='search') { %>
+                        <li class="nav-item active">
+                        <% } else { %>
+                        <li class="nav-item">
+                        <% } %>
+                          <a class="nav-link" href="/">Search</a>
+                        </li>
+          
+                        <% if(active=='printverify') { %>
+                        <li class="nav-item active">
+                        <% } else { %>
+                        <li class="nav-item">
+                        <% } %>
+                          <a class="nav-link" href="/printverify">Print/Verify</a>
+                        </li>
+          
+                        <% if(active=='cancel') { %>
+                        <li class="nav-item active">
+                        <% } else { %>
+                        <li class="nav-item">
+                        <% } %>
+                          <a class="nav-link" href="/cancel">Cancel</a>
+						</li>
+						
+						<% if(active=='supportticket') { %>
+                        <li class="nav-item active">
+                        <% } else { %>
+                        <li class="nav-item">
+                        <% } %>
+                          	<a class="nav-link" href="/supportticket">Support Ticket</a>
+                        </li>
+          
+                        <li class="nav-item">
+                          <a class="nav-link" href="/login">Login</a>
+                        </li>
+                      </ul>
                     </div>
-                    <div class="card-body">
-                        <% errors.forEach(error => { %>
-                        <p><%= error %></p>
-                        <% }) %>
-                        <br>
-                        <a href="<%= goback %>">Go Back </a>
-                    </div>
+                  </nav>
                 </div>
-            </div>
-            <!-- /.container-fluid-->
-            <!-- /.content-wrapper-->
-            <%- include('/layouts/footer', {logged:logged}) %>
-            <!-- Bootstrap core JavaScript-->
+              </header>
+            </section>
+          
+            <section id="sec-about" class="sec-about pt-5 pb-5">
+              <div class="container">
+                    <div class="card">
+						<div class="card-header">
+							<i class="fa fa-times"></i> <%= header %>
+						</div>
+						<div class="card-body">
+                            <% errors.forEach(error => { %>
+                            <p><%= error %></p>
+                            <% }) %>
+                            <br>
+                            <a href="<%= goback %>">Go Back </a>
+						</div>
+					</div>
+              </div>
+            </section>
         </div>
-        <script src="/assets/vendor/jquery/jquery.min.js"></script>
-        <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- Core plugin JavaScript-->
-        <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <!-- Custom scripts for all pages-->
-        <script src="/assets/js/sb-admin.min.js"></script>   
     </body>
 </html>
