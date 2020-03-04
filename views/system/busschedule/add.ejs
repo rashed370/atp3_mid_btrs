@@ -1,68 +1,112 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>BTRS - Add Bus Schedule</title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
-    </head>
-    <body>
-        <%- include('../../layouts/header', {logged:logged}) %>
-        <table class="main">
-            <tbody>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        <table style="width:100%; margin-bottom: 10px;">
-                            <tr>
-                                <td><h3 style="margin:0">Add Bus Schedule</h3></td>
-                                <td style="width:15%; text-align:right">[ <a href="/system/busschedule">Cancel</a> ]</td>
-                            </tr>
-                        </table>
 
-                        <form method="get">
-                            <table class="form">
-                                <tr>
-                                    <td>Operator</td><td>:</td><td>
-                                        <select name="operator">
-                                            <option value="">Select Bus Operator</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Bus</td><td>:</td><td>
-                                        <select name="bus">
-                                            <option value="">Select Bus Operator First</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Boarding</td><td>:</td><td>
-                                        <select name="boarding">
-                                            <option value="">Select Bus Operator First</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>From</td><td>:</td><td><input type="text" name="from" placeholder="Enter Route (From)"></td>
-                                </tr>
-                                <tr>
-                                    <td>To</td><td>:</td><td><input type="text" name="to" placeholder="Enter Route (To)"></td>
-                                </tr>
-                                <tr>
-                                    <td>Departure</td><td>:</td><td><input type="datetime-local" name="departure"></td>
-                                </tr>
-                                <tr>
-                                    <td>Arrival</td><td>:</td><td><input type="datetime-local" name="departure"></td>
-                                </tr>
-                                <tr>
-                                    <td></td><td></td><td><input type="submit" value="Add Schedule"></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>BTRS - Add Bus Schedule</title>
+        <!-- Bootstrap core CSS-->
+        <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="/assets/css/sb-admin.css" rel="stylesheet">
+    </head>
+
+    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+        <%- include('../../layouts/header', {logged:logged}) %>  
+        <div class="content-wrapper">
+            <div class="container-fluid">
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-table"></i>Add Bus Schedule
+                        <a href="/system/busschedule" class="btn btn-danger btn-sm pull-right">Cancel</a>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            
+                            <div class="form-group row">
+                                <label for="inputOperator" class="col-sm-2 col-form-label">Operator</label>
+                                <div class="col-sm-10">
+                                    <select name="operator" id="inputOperator" class="form-control">
+                                        <option value="">Select Bus Operator</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="inputBus" class="col-sm-2 col-form-label">Bus</label>
+                                <div class="col-sm-10">
+                                    <select name="bus" id="inputBus" class="form-control">
+                                        <option value="">Select Bus Operator First</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputBus" class="col-sm-2 col-form-label">Boarding</label>
+                                <div class="col-sm-10">
+                                    <select name="boarding" id="inputboarding" class="form-control">
+                                        <option value="">Select Bus Operator First</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputBus" class="col-sm-2 col-form-label">Bus</label>
+                                <div class="col-sm-10">
+                                    <select name="bus" id="inputBus" class="form-control">
+                                        <option value="">Select Bus Operator First</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputFrom" class="col-sm-2 col-form-label">From</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="inputFrom" placeholder="Enter Route (From)">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputTo" class="col-sm-2 col-form-label">To</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputTo" placeholder="Enter Route (To)">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputDeparture" class="col-sm-2 col-form-label">Departure</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="inputDeparture" placeholder="Departure">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputArrival" class="col-sm-2 col-form-label">Arrival</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="inputArrival" placeholder="Arrival">
+                                </div>
+                              </div>
+                           
+                            <div class="form-group row">
+                              <div class="col-sm-10 offset-sm-2">
+                                <button type="submit" class="btn btn-primary">Add Schedule</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <%- include('../../layouts/footer', {logged:logged}) %>
+        <!-- Bootstrap core JavaScript-->
+        </div>
+        <script src="/assets/vendor/jquery/jquery.min.js"></script>
+        <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="/assets/js/sb-admin.min.js"></script>   
     </body>
 </html>
