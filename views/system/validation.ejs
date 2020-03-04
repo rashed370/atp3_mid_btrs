@@ -52,7 +52,7 @@
                                             minute: '2-digit',
                                             timeZone: 'Asia/Dhaka'
                                         }) %></td>
-                                        <td style="text-align: center;"><a href="/system/validation/<%= unvalid.id %>">Validate</a> | <a style="color:red" href="/system/validation/remove/<%= unvalid.id %>">Remove</a></td>
+                                        <td style="text-align: center;"><a class="btn btn-primary btn-sm" href="/system/validation/<%= unvalid.id %>">Validate</a> <a class="btn btn-danger btn-sm" href="/system/validation/remove/<%= unvalid.id %>">Remove</a></td>
                                     </tr> 
                                     <% }) %>
                                     <% } else { %>

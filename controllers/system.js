@@ -171,15 +171,83 @@ router.get('/validation/:id', (request, response) => {
 });
 
 router.get('/supportstaff', (request, response) => {
-    response.render('system/supportstaff/index', {logged: request.user, supportstaffs:[]});
+    if(request.user.role=='admin') {
+        return Users.getSupportStaffs(result => {
+            response.render('system/supportstaff/index', {logged: request.user, supportstaffs: result});
+        });
+    }
+
+    response.redirect('/system');
 });
 
 router.get('/supportstaff/add', (request, response) => {
     response.render('system/supportstaff/add', {logged: request.user});
 });
 
+router.post('/supportstaff/add', [
+    check('name','Name is required').not().isEmpty().trim().escape(),
+    check('email', 'Email is required').not().isEmpty().trim().escape().isEmail().normalizeEmail().withMessage('Invalid Email'),
+    check('password', 'Password is required').not().isEmpty().trim().escape(),
+    check('repassword').custom((value, { req }) => {
+        if( value !== req.body.password ) {
+            throw new Error('Password confirmation does not match password')
+        }
+        return true;
+    })
+], (request, response) => {
+    const errors = validationResult(request);
+    const converted = [];
+
+    if(errors && errors.errors) {
+        errors.errors.forEach(error => {
+            converted.push(error.msg);
+        });
+    }
+
+    if(!(converted.length>0)) {
+        Users.getByEmail(request.body.email, user => {
+            if(user==null) {
+                Users.insert({
+                    email : request.body.email,
+                    password : request.body.password,
+                    name : request.body.name,
+                    company : null,
+                    operator : null,
+                    role : 'supportstaff',
+                    validated : 1,
+                    registered : new Date()
+                }, result => {
+                    if(result) {
+                        response.render('system/success', { logged: request.user, title: 'Register', header: 'Add New Support Staff', msgs: ['Support Staff Added Successfully'], goback: ['/system/supportstaff', 'Go Back to Support Staffs']});
+                    } else {
+                        response.render('system/errors', { logged: request.user, title: 'Register', header: 'Add New Support Staff', errors: ['Something went wrong. Please try again'], goback: '/system/supportstaff/add'});
+                    }
+                })
+            } else {
+                response.render('system/errors', { logged: request.user, title: 'Register', header: 'Add New Support Staff', errors: ['Email Already Exists'], goback: '/system/supportstaff/add'});
+            }
+        });
+    } else {
+        response.render('system/errors', { logged: request.user, title: 'Register', header: 'Add New Support Staff', errors: converted, goback: '/system/supportstaff/add'});
+    }
+});
+
 router.get('/supportstaff/edit/:id', (request, response) => {
-    response.render('system/supportstaff/edit', {logged: request.user});
+    if(request.user.role=='admin') {
+        return Users.getById(request.params.id, result => {
+            if(result && result.role!=null) {
+                if(result.role=='supportstaff') {
+                    response.render('system/supportstaff/edit', {logged: request.user, supportstaff: result});
+                } else {
+                    response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found 2'], goback: '/system/supportstaff'});
+                }
+            } else {
+                response.render('system/errors', {logged: request.user, title: 'Edit Support Staff', header: 'Error Occured', errors: ['User not found 1'], goback: '/system/supportstaff'});
+            } 
+        });
+    }
+
+    response.redirect('/system'); 
 });
 
 router.get('/busmanager', (request, response) => {
