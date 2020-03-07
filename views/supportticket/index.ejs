@@ -98,9 +98,28 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td colspan="3">No results found</td>
-                    </tr>
+
+                    <% if(supporttickets && supporttickets.length>0) { %>
+                      <% supporttickets.forEach(supportticket => { %>
+                      <tr>
+                          <td>
+                            <a href="/supportticket/view/<%= supportticket.id %>"><%= supportticket.subject %></a>
+                          </td>
+                          <td>
+                            <%= supportticket.status %>
+                          </td>
+                          
+                          <td style="text-align: center;">
+                         
+                          <a class="btn btn-danger btn-sm" href="/supportticket/close/<%= supportticket.id %>">Close</a>
+                          </td>
+                      </tr> 
+                      <% }) %>
+                      <% } else { %>
+                      <tr>
+                          <td colspan="3">No results found</td>
+                      </tr>
+                      <% } %>
                   </tbody> 
 								</table>
 								<% } %>
