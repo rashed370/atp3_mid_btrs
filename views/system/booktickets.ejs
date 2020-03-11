@@ -27,18 +27,106 @@
                         
                     </div>
                     <div class="card-body">
+                        <form method="post">
+                            <div class="form-row align-items-center mb-3">
+                                <% if(logged.role == 'admin' || logged.role=='supportstaff') { %>
+                                <div class="col-sm-3">
+                                    <select name="operator" id="inputOperator" class="form-control">
+                                        <% if(busmanagers && busmanagers.length>0) { %>
+                                        <option value="">Select Bus Operator</option>
+                                        <% busmanagers.forEach(busmanager => { %>
+                                        <option value="<%= busmanager.id %>"><%= busmanager.company %></option>
+                                        <% }) %>
+                                        <% } else { %>
+                                        <option value="">No Operator Found</option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" name="from" class="form-control" placeholder="Form">
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" name="to" class="form-control" placeholder="To">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="datetime-local" name="departure" class="form-control">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                                </div>
+                                <% } else { %>
+                                <div class="col-sm-3">
+                                    <input type="text" name="from" class="form-control" placeholder="Form">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" name="to" class="form-control" placeholder="To">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="datetime-local" name="departure" class="form-control">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                                </div>
+                                <% } %>
+                            </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped mb-0" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Operator (Bus Type)</th>
+                                        <% if(logged.role=='admin' || logged.role=='supportstaff') { %>
+                                        <th>Operator</th>
+                                        <% } %>
+                                        <th>Bus</th>
                                         <th>Departure</th>
                                         <th>Arrival</th>
                                         <th>Seats Available</th>
                                         <th>Fare</th>
                                     </tr>
                                 </thead>
-                                  
+                                <% if(busschedules && busschedules.length>0) { %>
+                                    <% busschedules.forEach(busschedule => { %>
+                                    <tr>
+                                        <% if(logged.role=='admin' || logged.role=='supportstaff') { %>
+                                        <td><%= busschedule.company %></td>
+                                        <% } %>
+                                        <td><%= busschedule.bus %> [ <%= busschedule.bus_registration %> ]<br><%= busschedule.route %></td>
+                                        <td  style="text-align: center;"><%= busschedule.departure.toLocaleString('en-US', {
+                                             weekday: 'short',
+                                             month: 'long',
+                                             day: '2-digit',
+                                             year: 'numeric',
+                                             hour: '2-digit',
+                                             minute: '2-digit',
+                                             timeZone: 'Asia/Dhaka'
+                                         }) %></td>
+                                         <td  style="text-align: center;"><%= busschedule.arrival.toLocaleString('en-US', {
+                                            weekday: 'short',
+                                            month: 'long',
+                                            day: '2-digit',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            timeZone: 'Asia/Dhaka'
+                                        }) %></td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <%= busschedule.fare %><br>
+                                            <a href="/system/busschedule/edit/<%= busschedule.id %>" class="btn btn-primary btn-sm">View Seats</a> 
+                                        </td>
+                                    </tr> 
+                                    <% }) %>
+                                    <% } else { %>
+                                    <tr>
+                                        <% if(logged.role=='admin' || logged.role=='supportstaff') { %>
+                                        <td colspan="6">No results found</td>
+                                        <% } else { %>
+                                        <td colspan="5">No results found</td>
+                                        <% } %>
+                                    </tr>
+                                    <% } %>  
                             </table>
                         </div>
                     </div>

@@ -11,6 +11,7 @@ const printverify           = require('./controllers/printverify');
 const supportticket           = require('./controllers/supportticket');
 const system           = require('./controllers/system');
 const ajax           = require('./controllers/ajax');
+const landing           = require('./controllers/landing');
 
 
 const app = express();
@@ -28,11 +29,7 @@ app.use('/printverify', printverify);
 app.use('/supportticket', supportticket);
 app.use('/system', system);
 app.use('/ajax', ajax);
-
-
-app.get('/', (request, response) => {
-    response.render('index');
-});
+app.use('/', landing)
 
 app.listen(3100, ()=>{
     console.log('server started at http://localhost:3100/');

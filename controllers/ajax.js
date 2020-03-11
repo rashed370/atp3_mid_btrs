@@ -19,6 +19,13 @@ router.all('*', (request, response, next) => {
                         }
                         return next();
                     });
+                } else if (user.role=='counterstaff') {
+                    return BusCounters.getById(user.operator, counter => {
+                        if(counter && counter.operator) {
+                            request.user.busoperator = counter.operator;
+                        }
+                        return next();
+                    });
                 }
                 return next();
             }
