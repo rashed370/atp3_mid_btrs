@@ -22,8 +22,14 @@ router.all('*', (request, response, next) => {
                         }
                         return next();
                     });
+                } else if (user.role=='counterstaff') {
+                    return BusCounters.getById(user.operator, counter => {
+                        if(counter && counter.operator) {
+                            request.user.busoperator = counter.operator;
+                        }
+                        return next();
+                    });
                 }
-                
                 return next();
             }
         });
@@ -966,7 +972,58 @@ router.get('/busschedule/edit/:id', (request, response) => {
 });
 
 router.get('/booktickets', (request, response) => {
-    response.render('system/booktickets', {logged: request.user});
+    if(request.user.role=='admin' || request.user.role=='supportstaff') {
+        return Users.getBusManagers(results => {
+            results = results && results.length>0 ? results : [];
+            response.render('system/booktickets', {logged: request.user, busschedules:[], busmanagers: results});
+        });  
+    } else {
+        response.render('system/booktickets', {logged: request.user, busschedules:[]});
+    }    
+});
+
+router.post('/booktickets', [
+    check('from','From is required').not().isEmpty().trim().escape(),
+    check('to','To is required').not().isEmpty().trim().escape(),
+    check('departure','Departure is required').not().isEmpty().trim().escape(),
+], (request, response) => {
+    const errors = validationResult(request);
+    const converted = [];
+
+    if(errors && errors.errors) {
+        errors.errors.forEach(error => {
+            converted.push(error.msg);
+        });
+    }
+
+    if(request.user.role == 'admin') {
+        if(request.body.operator == null) {
+            converted.push('Bus Operator is Required')
+        } else if(request.body.operator == '') {
+            converted.push('Bus Operator is Required')
+        }
+    } else if(request.user.role == 'busmanager') {
+        request.body.operator = request.user.id;
+    } else if(request.user.role == 'counterstaff') {
+        request.body.operator = request.user.busoperator;
+    } else {
+        converted.push('Bus Operator is Required'); 
+    }
+
+    if(!(converted.length>0)) {
+        return BusSchedules.getSearchByOperator({
+            operator : request.body.operator,
+            from : request.body.from,
+            to : request.body.to
+        }, busschedules => {
+            return Users.getBusManagers(results => {
+                results = results && results.length>0 ? results : [];
+                response.render('system/booktickets', {logged: request.user, busschedules:busschedules, busmanagers: results});
+            });
+        });
+    } else {
+        response.render('system/errors', { logged: request.user, title: 'Search Bus Ticket', header: 'Search Bus Ticket', errors: converted, goback: '/system/booktickets'});
+    }
 });
 
 router.get('/tickets', (request, response) => {

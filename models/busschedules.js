@@ -66,6 +66,33 @@ exports.getByOperator = (operator, callback) => {
     });
 };
 
+exports.getSearch = (params, callback) => {
+    const sql = "SELECT bs.`id`, bs.`departure`, bs.`arrival`, bs.`route`, bs.`fare`, u.`company`, bc.`name` AS `boarding`, b.`name` AS `bus`, b.`registration` AS `bus_registration` FROM `busschedules` bs INNER JOIN `buses` b ON bs.`busid` = b.`id` INNER JOIN `users` u ON b.`operator` = u.`id` INNER JOIN `buscounters` bc ON bc.`id` = bs.`boarding` WHERE bs.`route` = ? AND bs.`departure` > ? ORDER BY bs.`id` DESC ";
+    database.getResult(sql, [
+        params.from + '-' + params.to,
+        Date.now()
+    ], result => {
+        if(result && result.length>0) 
+        callback(result)
+        else 
+        callback(null);
+    });
+};
+
+exports.getSearchByOperator = (params, callback) => {
+    const sql = "SELECT bs.`id`, bs.`departure`, bs.`arrival`, bs.`route`, bs.`fare`, u.`company`, bc.`name` AS `boarding`, b.`name` AS `bus`, b.`registration` AS `bus_registration` FROM `busschedules` bs INNER JOIN `buses` b ON bs.`busid` = b.`id` INNER JOIN `users` u ON b.`operator` = u.`id` INNER JOIN `buscounters` bc ON bc.`id` = bs.`boarding` WHERE b.`operator` = ? AND bs.`route` = ? AND bs.`departure` > ? ORDER BY bs.`id` DESC ";
+    database.getResult(sql, [
+        params.operator,
+        params.from + '-' + params.to,
+        Date.now()
+    ], result => {
+        if(result && result.length>0) 
+        callback(result)
+        else 
+        callback(null);
+    });
+};
+
 // exports.getById = (id, callback) => {
 //     const sql = "SELECT * FROM `busschedules` WHERE `id` = ? ORDER BY `id` DESC LIMIT 0, 1";
 //     database.getResult(sql, [id], result => {
