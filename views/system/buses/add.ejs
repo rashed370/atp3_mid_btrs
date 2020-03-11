@@ -27,38 +27,46 @@
                         <a href="/system/buses" class="btn btn-danger btn-sm pull-right">Cancel</a>
                     </div>
                     <div class="card-body">
-                        <form>
-                            
+                        <form method="post">
+                          <% if(logged.role=='admin') { %>
                             <div class="form-group row">
                                 <label for="inputOperator" class="col-sm-2 col-form-label">Operator</label>
                                 <div class="col-sm-10">
-                                    <select name="operator" id="inputOperator" class="form-control">
-                                        <option value="">Select Bus Operator</option>
-                                    </select>
+                                  <select name="operator" id="inputOperator" class="form-control">
+                                    <% if(busmanagers && busmanagers.length>0) { %>
+                                      <option value="">Select Bus Operator</option>
+                                      <% busmanagers.forEach(busmanager => { %>
+                                      <option value="<%= busmanager.id %>"><%= busmanager.company %></option>
+                                      <% }) %>
+                                      <% } else { %>
+                                      <option value="">No Operator Found</option>
+                                      <% } %>
+                                  </select>
                                 </div>
                             </div>
+                            <% } %>
                             <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Name/Model</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                                  <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter name">
                                 </div>
                             </div>
                             <div class="form-group row">
                               <label for="inputRegistration" class="col-sm-2 col-form-label">Registration no</label>
                               <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputRegistration" placeholder="Enter Registration No">
+                                <input type="text" class="form-control" name="registration" id="inputRegistration" placeholder="Enter Registration No">
                               </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputColumn" class="col-sm-2 col-form-label"> Seat (Column)</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputColumn" placeholder="Enter Column No">
+                                  <input type="text" class="form-control" name="column" id="inputColumn" placeholder="Enter Column No">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="inputRow" class="col-sm-2 col-form-label"> Seat (Row)</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputRow" placeholder="Enter Row No">
+                                  <input type="text" class="form-control" name="row" id="inputRow" placeholder="Enter Row No">
                                 </div>
                               </div>
                            

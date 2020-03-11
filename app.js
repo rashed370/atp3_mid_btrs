@@ -10,6 +10,7 @@ const cancel           = require('./controllers/cancel');
 const printverify           = require('./controllers/printverify');
 const supportticket           = require('./controllers/supportticket');
 const system           = require('./controllers/system');
+const ajax           = require('./controllers/ajax');
 
 
 const app = express();
@@ -26,6 +27,7 @@ app.use('/cancel', cancel);
 app.use('/printverify', printverify);
 app.use('/supportticket', supportticket);
 app.use('/system', system);
+app.use('/ajax', ajax);
 
 
 app.get('/', (request, response) => {

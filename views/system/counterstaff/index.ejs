@@ -31,16 +31,48 @@
                             <table class="table table-bordered table-striped mb-0" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <tr>
-                                            <th>Operator (Bus Type)</th>
-                                            <th>Departure</th>
-                                            <th>Arrival</th>
-                                            <th>Reserved Seats</th>
-                                            <th>Action</th>
-                                        </tr>
+                                        <% if(logged.role=='admin'||logged.role=='supportstaff') { %>
+                                        <th>Operator</th>
+                                        <% } %>
+                                        <th>Counter</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Registered</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                  
+                                <tbody>
+                                    <% if(counterstaffs && counterstaffs.length>0) { %>
+                                    <% counterstaffs.forEach(counterstaff => { %>
+                                    <tr>
+                                        <% if(logged.role=='admin'||logged.role=='supportstaff') { %>
+                                        <td><%= counterstaff.company %></td>
+                                        <% } %>
+                                        <td><%= counterstaff.counter %></td>
+                                        <td><%= counterstaff.name %></td>
+                                        <td><%= counterstaff.email %></td>
+                                        <td  style="text-align: center;"><%= counterstaff.registered.toLocaleString('en-US', {
+                                            weekday: 'short',
+                                            month: 'long',
+                                            day: '2-digit',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            timeZone: 'Asia/Dhaka'
+                                        }) %></td>
+                                        <td style="text-align: center;"><a href="/system/counterstaff/edit/<%= counterstaff.id %>" class="btn btn-primary btn-sm">Edit</a> <a class="btn btn-danger btn-sm" href="/system/counterstaff/remove/<%= counterstaff.id %>">Remove</a></td>
+                                    </tr> 
+                                    <% }) %>
+                                    <% } else { %>
+                                    <tr>
+                                        <% if(logged.role=='admin'||logged.role=='supportstaff') { %>
+                                        <td colspan="6">No results found</td>
+                                        <% } else { %>
+                                        <td colspan="5">No results found</td>
+                                        <% } %>
+                                    </tr>
+                                    <% } %>
+                                </tbody>   
                             </table>
                         </div>
                     </div>

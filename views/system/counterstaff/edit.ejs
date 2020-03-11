@@ -1,58 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
         <title>BTRS - Edit Counter Staff</title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+        <!-- Bootstrap core CSS-->
+        <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="/assets/css/sb-admin.css" rel="stylesheet">
     </head>
-    <body>
-        <%- include('../../layouts/header', {logged:logged}) %>
-        <table class="main">
-            <tbody>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        <table style="width:100%; margin-bottom: 10px;">
-                            <tr>
-                                <td><h3 style="margin:0">Edit Counter Staff</h3></td>
-                                <td style="width:15%; text-align:right">[ <a href="/system/counterstaff">Cancel</a> ]</td>
-                            </tr>
-                        </table>
 
-                        <form method="get">
-                            <table class="form">
-                                <tr>
-                                    <td>Operator</td><td>:</td><td>
-                                        <select name="operator">
-                                            <option value="">Select Bus Operator</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Counter</td><td>:</td><td>
-                                        <select name="operator">
-                                            <option value="">Select Bus Operator First</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Name</td><td>:</td><td><input type="text" name="name" placeholder="Enter full name"></td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td><td>:</td><td><input type="email" name="email" placeholder="Enter email address"></td>
-                                </tr>
-                                <tr>
-                                    <td>Password</td><td>:</td><td><input type="password" name="password" placeholder="Enter a new password"></td>
-                                </tr>
-                                <tr>
-                                    <td></td><td></td><td><input type="submit" value="Save Changes"></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+        <%- include('../../layouts/header', {logged:logged}) %>  
+        <div class="content-wrapper">
+            <div class="container-fluid">
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-table"></i> Edit Counter Staff
+                        <a href="/system/counterstaff" class="btn btn-danger btn-sm pull-right">Cancel</a>
+                    </div>
+                    <div class="card-body">
+                        <form action="/system/counterstaff/edit/<%= counterstaff.id %>" method="post">
+                          <% if(logged.role=='admin') { %>
+                            <div class="form-group row">
+                                <label for="inputOperator" class="col-sm-2 col-form-label">Operator</label>
+                                <div class="col-sm-10">
+                                  <select name="operator" id="inputOperator" class="form-control">
+                                    <% if(busmanagers && busmanagers.length>0) { %>
+                                      <option value="">Select Bus Operator</option>
+                                      <% busmanagers.forEach(busmanager => { %>
+                                      <% if(counterstaff.operatorid == busmanager.id) { %>
+                                      <option value="<%= busmanager.id %>" selected><%= busmanager.company %></option>
+                                      <% } else { %>
+                                      <option value="<%= busmanager.id %>"><%= busmanager.company %></option>
+                                      <% } %>
+                                      <% }) %>
+                                      <% } else { %>
+                                      <option value="">No Operator Found</option>
+                                      <% } %>
+                                  </select>
+                                </div>
+                            </div>
+                            <% } %>
+                            <div class="form-group row">
+                                <label for="inputCounter" class="col-sm-2 col-form-label">Counter</label>
+                                <div class="col-sm-10">
+                                    <select name="counter" id="inputCounter" class="form-control">
+										<% if(buscounters && buscounters.length>0) { %>
+										<option value="">Select Bus Counter</option>
+                                        <% buscounters.forEach(buscounter => { %>
+                                        <% if(counterstaff.counterid == buscounter.id) { %>
+										<option value="<%= buscounter.id %>" selected><%= buscounter.name %></option>
+                                        <% } else { %>
+                                        <option value="<%= buscounter.id %>"><%= buscounter.name %></option>
+                                        <% } %>
+                                        <% }) %>
+										<% } else { %>
+										<option value="">No Counter Found</option>
+										<% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="name" class="form-control" value="<%= counterstaff.name %>" id="inputName" placeholder="Enter full name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-10">
+                                  <input type="email" name="email" class="form-control" value="<%= counterstaff.email %>" id="inputEmail" placeholder="Enter email address">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                              <div class="col-sm-10">
+                                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Enter a new password">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-sm-10 offset-sm-2">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <%- include('../../layouts/footer', {logged:logged}) %>
+        <!-- Bootstrap core JavaScript-->
+        </div>
+        <script src="/assets/vendor/jquery/jquery.min.js"></script>
+        <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Custom scripts for all pages-->
+		<script src="/assets/js/sb-admin.min.js"></script> 
+		<% if(logged.role=='admin') { %>
+        <script type="text/javascript">
+        jQuery($ => {
+			$(document).ready(e => {
+				const __operator = $('select[name="operator"]');
+				const __counter = $('select[name="counter"]');
+				const __noCounter = $('<option value=""/>').text('No Counter Found');
+				const __selectOpFirst = $('<option value=""/>').text('Select Bus Operator First');
+				const __selectCounter = $('<option value=""/>').text('Select Bus Counter');
+				const __option = $('<option/>');
+
+				__operator.on('change', e => {
+					const selected = __operator.val();
+					if(selected) {
+						$.post("/ajax/getbuscounters", { operator : selected }, (data, status) => {
+							if(status=="success") {
+								__counter.html('');
+								if(data && data.length>0) {
+									__counter.append(__selectCounter.clone());
+									data.forEach(option => {
+										__counter.append(
+											__option.clone().attr('value', option[0]).text(option[1])
+										);
+									});
+								} else {
+									__counter.append(__noCounter.clone());
+								}
+							} else {
+								__counter.html('').append(__noCounter.clone());
+							}
+						});
+					} else {
+						__counter.html('').append(__selectOpFirst.clone());
+					}
+				});
+			});
+        });
+		</script>
+		<% } %>
     </body>
 </html>

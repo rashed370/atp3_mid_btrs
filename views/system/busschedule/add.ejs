@@ -27,22 +27,42 @@
                         <a href="/system/busschedule" class="btn btn-danger btn-sm pull-right">Cancel</a>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="post">
                             
+                            <% if(logged.role=='admin') { %>
                             <div class="form-group row">
                                 <label for="inputOperator" class="col-sm-2 col-form-label">Operator</label>
                                 <div class="col-sm-10">
                                     <select name="operator" id="inputOperator" class="form-control">
+                                    <% if(busmanagers && busmanagers.length>0) { %>
                                         <option value="">Select Bus Operator</option>
+                                        <% busmanagers.forEach(busmanager => { %>
+                                        <option value="<%= busmanager.id %>"><%= busmanager.company %></option>
+                                        <% }) %>
+                                        <% } else { %>
+                                        <option value="">No Operator Found</option>
+                                    <% } %>
                                     </select>
                                 </div>
                             </div>
+                            <% } %>
 
                             <div class="form-group row">
                                 <label for="inputBus" class="col-sm-2 col-form-label">Bus</label>
                                 <div class="col-sm-10">
                                     <select name="bus" id="inputBus" class="form-control">
+                                        <% if(logged.role=='busmanager') { %>
+                                        <% if(buses && buses.length>0) { %>
+                                            <option value="">Select Bus</option>
+                                            <% buses.forEach(bus => { %>
+                                            <option value="<%= bus.id %>"><%= bus.name %> [ <%= bus.registration %> ]</option>
+                                            <% }) %>
+                                            <% } else { %>
+                                            <option value="">No Bus Found</option>
+                                        <% } %>
+                                        <% } else { %>
                                         <option value="">Select Bus Operator First</option>
+                                        <% } %>
                                     </select>
                                 </div>
                             </div>
@@ -50,40 +70,49 @@
                                 <label for="inputBus" class="col-sm-2 col-form-label">Boarding</label>
                                 <div class="col-sm-10">
                                     <select name="boarding" id="inputboarding" class="form-control">
+                                        <% if(logged.role=='busmanager') { %>
+                                        <% if(counters && counters.length>0) { %>
+                                            <option value="">Select Counter</option>
+                                            <% counters.forEach(counter => { %>
+                                            <option value="<%= counter.id %>"><%= counter.name %></option>
+                                            <% }) %>
+                                            <% } else { %>
+                                            <option value="">No Counter Found</option>
+                                        <% } %>
+                                        <% } else { %>
                                         <option value="">Select Bus Operator First</option>
+                                        <% } %>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputBus" class="col-sm-2 col-form-label">Bus</label>
+                                <label for="inputFare" class="col-sm-2 col-form-label">Fare</label>
                                 <div class="col-sm-10">
-                                    <select name="bus" id="inputBus" class="form-control">
-                                        <option value="">Select Bus Operator First</option>
-                                    </select>
+                                  <input type="text" name="fare" class="form-control" id="inputFare" placeholder="Enter Fare">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputFrom" class="col-sm-2 col-form-label">From</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputFrom" placeholder="Enter Route (From)">
+                                  <input type="text" name="from" class="form-control" id="inputFrom" placeholder="Enter Route (From)">
                                 </div>
                             </div>
                             <div class="form-group row">
                               <label for="inputTo" class="col-sm-2 col-form-label">To</label>
                               <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputTo" placeholder="Enter Route (To)">
+                                <input type="text" name="to" class="form-control" id="inputTo" placeholder="Enter Route (To)">
                               </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputDeparture" class="col-sm-2 col-form-label">Departure</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputDeparture" placeholder="Departure">
+                                  <input type="datetime-local" name="departure" class="form-control" id="inputDeparture" placeholder="Departure">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="inputArrival" class="col-sm-2 col-form-label">Arrival</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputArrival" placeholder="Arrival">
+                                  <input type="datetime-local" name="arrival" class="form-control" id="inputArrival" placeholder="Arrival">
                                 </div>
                               </div>
                            
@@ -107,6 +136,66 @@
         <!-- Core plugin JavaScript-->
         <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!-- Custom scripts for all pages-->
-        <script src="/assets/js/sb-admin.min.js"></script>   
+        <script src="/assets/js/sb-admin.min.js"></script>
+        <% if(logged.role=='admin') { %>
+            <script type="text/javascript">
+            jQuery($ => {
+                $(document).ready(e => {
+                    const __operator = $('select[name="operator"]');
+                    const __counter = $('select[name="boarding"]');
+                    const __buses = $('select[name="bus"]');
+                    const __noCounter = $('<option value=""/>').text('No Counter Found');
+                    const __noBuses = $('<option value=""/>').text('No Bus Found');
+                    const __selectOpFirst = $('<option value=""/>').text('Select Bus Operator First');
+                    const __selectCounter = $('<option value=""/>').text('Select Bus Counter');
+                    const __selectBus = $('<option value=""/>').text('Select Bus');
+                    const __option = $('<option/>');
+    
+                    __operator.on('change', e => {
+                        const selected = __operator.val();
+                        if(selected) {
+                            $.post("/ajax/getbuscounters", { operator : selected }, (data, status) => {
+                                if(status=="success") {
+                                    __counter.html('');
+                                    if(data && data.length>0) {
+                                        __counter.append(__selectCounter.clone());
+                                        data.forEach(option => {
+                                            __counter.append(
+                                                __option.clone().attr('value', option[0]).text(option[1])
+                                            );
+                                        });
+                                    } else {
+                                        __counter.append(__noCounter.clone());
+                                    }
+                                } else {
+                                    __counter.html('').append(__noCounter.clone());
+                                }
+                            });
+                            $.post("/ajax/getbuses", { operator : selected }, (data, status) => {
+                                if(status=="success") {
+                                    __buses.html('');
+                                    if(data && data.length>0) {
+                                        __buses.append(__selectBus.clone());
+                                        data.forEach(option => {
+                                            __buses.append(
+                                                __option.clone().attr('value', option[0]).text(option[1])
+                                            );
+                                        });
+                                    } else {
+                                        __buses.append(__noBuses.clone());
+                                    }
+                                } else {
+                                    __buses.html('').append(__noBuses.clone());
+                                }
+                            });
+                        } else {
+                            __counter.html('').append(__selectOpFirst.clone());
+                            __buses.html('').append(__selectOpFirst.clone());
+                        }
+                    });
+                });
+            });
+            </script>
+            <% } %>   
     </body>
 </html>

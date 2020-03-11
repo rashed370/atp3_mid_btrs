@@ -1,48 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>BTRS - Edit Bus Counter/title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>BTRS - Edit Bus Counter</title>
+        <!-- Bootstrap core CSS-->
+        <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="/assets/css/sb-admin.css" rel="stylesheet">
     </head>
-    <body>
-        <%- include('../../layouts/header', {logged:logged}) %>
-        <table class="main">
-            <tbody>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        <table style="width:100%; margin-bottom: 10px;">
-                            <tr>
-                                <td><h3 style="margin:0">Edit Bus Counter</h3></td>
-                                <td style="width:15%; text-align:right">[ <a href="/system/buscounter">Cancel</a> ]</td>
-                            </tr>
-                        </table>
 
-                        <form method="get">
-                            <table class="form">
-                                <tr>
-                                    <td>Operator</td><td>:</td><td>
-                                        <select name="operator">
-                                            <option value="">Select Bus Operator</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Counter Name</td><td>:</td><td><input type="text" name="name" placeholder="Enter full name"></td>
-                                </tr>
-                                <tr>
-                                    <td>Counter Location</td><td>:</td><td><input type="text" name="location" placeholder="Enter email address"></td>
-                                </tr>
-                                <tr>
-                                    <td></td><td></td><td><input type="submit" value="Save Changes"></td>
-                                </tr>
-                            </table>
+    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+        <%- include('../../layouts/header', {logged:logged}) %>  
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-table"></i> Edit Bus Counter
+                        <a href="/system/buscounter" class="btn btn-danger btn-sm pull-right">Cancel</a>
+                    </div>
+                    <div class="card-body">
+                        <form action="/system/buscounter/edit/<%= buscounter.id %>" method="post">
+                            <% if(logged.role=='admin') { %>
+                            <div class="form-group row">
+                                <label for="inputOperator" class="col-sm-2 col-form-label">Operator</label>
+                                <div class="col-sm-10">
+                                  <select name="operator" id="inputOperator" class="form-control">
+                                    <% if(busmanagers && busmanagers.length>0) { %>
+                                      <option value="">Select Bus Operator</option>
+                                      <% busmanagers.forEach(busmanager => { %>
+                                      <% if(buscounter.operator==busmanager.id) { %>
+                                      <option value="<%= busmanager.id %>" selected><%= busmanager.company %></option>
+                                      <% } else { %>
+                                      <option value="<%= busmanager.id %>"><%= busmanager.company %></option>
+                                      <% } %>
+                                      <% }) %>
+                                      <% } else { %>
+                                      <option value="">No Operator Found</option>
+                                      <% } %>
+                                  </select>
+                                </div>
+                            </div>
+                            <% } %>
+                            <div class="form-group row">
+                                <label for="inputName" class="col-sm-2 col-form-label">Counter Name</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="name" id="inputName" value="<%= buscounter.name %>" placeholder="Enter counter name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputLocation" class="col-sm-2 col-form-label">Counter Location</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="form-control" name="location" value="<%= buscounter.location %>" id="inputLocation" placeholder="Enter counter full location">
+                              </div>
+                            </div>
+                          
+                            <div class="form-group row">
+                              <div class="col-sm-10 offset-sm-2">
+                                <button type="submit" class="btn btn-primary">Save Information</button>
+                              </div>
+                            </div>
                         </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <%- include('../../layouts/footer', {logged:logged}) %>
+        <!-- Bootstrap core JavaScript-->
+        </div>
+        <script src="/assets/vendor/jquery/jquery.min.js"></script>
+        <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="/assets/js/sb-admin.min.js"></script>   
     </body>
 </html>

@@ -30,14 +30,41 @@
                             <table class="table table-bordered table-striped mb-0" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                      <tr>
-                                        <th>Operator (Bus Type)</th>
-                                        <th>Departure</th>
-                                        <th>Arrival</th>
-                                        <th>Reserved Seats</th>
+                                        <% if(logged.role=='admin' || logged.role=='supportstaff') { %>
+                                        <th>Operator</th>
+                                        <th>Manager</th>
+                                        <% } %>
+                                        <th>Name</th>
+                                        <th>Location</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                  
+                                <% if(buscounters && buscounters.length>0) { %>
+                                    <% buscounters.forEach(buscounter => { %>
+                                    <tr>
+                                        <% if(logged.role=='admin' || logged.role=='supportstaff') { %>
+                                        <td><%= buscounter.company %></td>
+                                        <td><%= buscounter.manager %></td>
+                                        <% } %>
+                                        <td><%= buscounter.name %></td>
+                                        <td><%= buscounter.location %></td>
+                                        <td style="text-align: center;">
+                                            <a href="/system/buscounter/edit/<%= buscounter.id %>" class="btn btn-primary btn-sm">Edit</a> 
+                                            <% if(logged.role=='admin' || logged.role=='busmanager') { %>
+                                            <a class="btn btn-danger btn-sm" href="/system/buscounter/remove/<%= buscounter.id %>">Remove</a>
+                                            <% } %>
+                                        </td>
+                                    </tr> 
+                                    <% }) %>
+                                    <% } else { %>
+                                    <tr>
+                                        <% if(logged.role=='admin' || logged.role=='supportstaff') { %>
+                                        <td colspan="5">No results found</td>
+                                        <% } else { %>
+                                        <td colspan="3">No results found</td>
+                                        <% } %>
+                                    </tr>
+                                    <% } %>
                             </table>
                         </div>
                     </div>

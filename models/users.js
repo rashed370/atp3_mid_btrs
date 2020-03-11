@@ -88,7 +88,7 @@ exports.getAwaitValidation = callback => {
 }
 
 exports.getUnvalidated = callback => {
-    const sql = "SELECT * FROM `users` WHERE `validated` = ?";
+    const sql = "SELECT * FROM `users` WHERE `validated` = ? ORDER BY `id` DESC";
     database.getResult(sql, [0], result => {
         if(result && result.length>0) 
         callback(result)
@@ -98,10 +98,40 @@ exports.getUnvalidated = callback => {
 }
 
 exports.getSupportStaffs = callback => {
-    const sql = "SELECT * FROM `users` WHERE `role` = ? AND `validated` = ?";
+    const sql = "SELECT * FROM `users` WHERE `role` = ? AND `validated` = ? ORDER BY `id` DESC";
     database.getResult(sql, ['supportstaff', 1], result => {
         if(result && result.length>0) 
         callback(result)
+        else 
+        callback(null);
+    });
+}
+
+exports.getBusManagers = callback => {
+    const sql = "SELECT * FROM `users` WHERE `role` = ? AND `validated` = ? ORDER BY `id` DESC";
+    database.getResult(sql, ['busmanager', 1], result => {
+        if(result && result.length>0) 
+        callback(result)
+        else 
+        callback(null);
+    });
+}
+
+exports.getCounterStaffs = callback => {
+    const sql = "SELECT ua.`id`, ua.`email`, ua.`name`, ub.`company`, bc.`name` AS `counter`, ua.`registered` FROM `users` ua INNER JOIN `buscounters` bc ON bc.`id` = ua.`operator` INNER JOIN `users` ub ON ub.`id` = bc.`operator` WHERE ua.`role` = ? AND ua.`validated` = ? ORDER BY ua.`id` DESC";
+    database.getResult(sql, ['counterstaff', 1], result => {
+        if(result && result.length>0) 
+        callback(result)
+        else 
+        callback(null);
+    });
+}
+
+exports.getCounterStaff = (id, callback) => {
+    const sql = "SELECT ua.`id`, ua.`email`, ua.`password`, ua.`name`, ua.`role`, ub.`company`, bc.`name` AS `counter`, bc.`operator` AS `operatorid`, bc.`id` AS `counterid`, ua.`registered` FROM `users` ua INNER JOIN `buscounters` bc ON bc.`id` = ua.`operator` INNER JOIN `users` ub ON ub.`id` = bc.`operator` WHERE ua.`id` = ? AND ua.`role` = ? AND ua.`validated` = ? ORDER BY ua.`id` DESC LIMIT 0, 1";
+    database.getResult(sql, [id, 'counterstaff', 1], result => {
+        if(result && result.length>0) 
+        callback(result[0])
         else 
         callback(null);
     });

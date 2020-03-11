@@ -52,7 +52,12 @@
                                             minute: '2-digit',
                                             timeZone: 'Asia/Dhaka'
                                         }) %></td>
-                                        <td style="text-align: center;"><a href="/system/supportstaff/edit/<%= busmanager.id %>" class="btn btn-primary btn-sm">Edit</a> <a class="btn btn-danger btn-sm" href="/system/supportstaff/remove/<%= busmanager.id %>">Remove</a></td>
+                                        <td style="text-align: center;">
+                                            <a href="/system/busmanager/edit/<%= busmanager.id %>" class="btn btn-primary btn-sm">Edit</a> 
+                                            <% if(logged.role=='admin') { %>
+                                            <a class="btn btn-danger btn-sm" href="/system/busmanager/remove/<%= busmanager.id %>">Remove</a>
+                                            <% } %>
+                                        </td>
                                     </tr> 
                                     <% }) %>
                                     <% } else { %>
