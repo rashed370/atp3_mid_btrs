@@ -53,19 +53,29 @@
               <div class="container">
                     <div class="card mb-4">
 						<div class="card-header">
-                            Subject
+              <% if(supporttickets && supporttickets.length>0) { %>
+                <% supporttickets.forEach(supportticket => { %>
+                            <span class="text-primary"><%= supportticket.subject %></span>
                             <span class="badge badge-success">Open</span>
                             <span class="badge badge-danger">Closed</span>
                             <a href="/supportticket/close/1" class="btn btn-primary btn-sm pull-right">Close</a>
                             <a href="/supportticket/open/1" class="btn btn-success btn-sm pull-right">Re-Open</a>
-						</div>
+            </div>
+           
 						<div class="card-body">
-                            <span class="text-primary">M. Rashedul Islam</span><br>
-                            <span class="text-secondary">01780851370</span>
+                            
+                            <span class="text-secondary"><%= supportticket.name %></span><br>
+                            <span class="text-secondary"><%= supportticket.owner %></span>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum neque sed arcu dignissim, eu feugiat ligula maximus. Vestibulum finibus vulputate sodales. Aenean dictum faucibus ex et tincidunt. Suspendisse porttitor ipsum sodales vehicula mollis. Mauris vestibulum consectetur nunc et posuere. Vivamus ac dui id tortor tincidunt tristique. Etiam ultrices enim nulla, in finibus purus congue euismod. Sed non metus enim. Phasellus iaculis vitae leo eu tincidunt. Cras bibendum tempus ante, in maximus magna eleifend ac. Curabitur dapibus tortor quis tellus maximus commodo.  
+                              <%= supportticket.details %>
                             </p>
-						</div>
+            </div>
+            <% }) %>
+            <% } else { %>
+              <tr>
+                  <td colspan="3">No results found</td>
+              </tr>
+              <% } %>
                     </div>
                     
                     <div class="card mb-4">

@@ -9,6 +9,16 @@ exports.getByOwner = (mobile, callback) => {
     });
 };
 
+exports.getById = (id, callback) => {
+    const sql = "SELECT * FROM `supportticket` WHERE `id` = ? ";
+    database.getResult(sql, [id], result => {
+        if(result && result.length>0) 
+        callback(result);
+        else 
+        callback(null);
+    });
+};
+
 exports.getOwnerName = (mobile, callback) => {
     const sql = "SELECT * FROM `supportticket` WHERE `owner` = ? ORDER BY `id` DESC LIMIT 0, 1";
     database.getResult(sql, [mobile], result => {

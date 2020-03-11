@@ -134,8 +134,25 @@ router.post('/add', [
 });
 
 router.get('/view/:id', (request, response) => {
-    response.render('supportticket/view');
+    if(request.session.supportmobile!=null){
+        if(request.session.supportotp!=null) {
+            Supportticket.getById(request.params.id, results => {
+               if(results && results.length>0){
+                 
+                response.render('supportticket/view', {supporttickets:results});
+
+               } else {
+                response.render('supportticket/index', {mobilebool:false,otpbool:false,tablebool:true,addbool:true,supporttickets:[]});
+               } 
+         
+            });
+            
+        } else {
+            response.render('supportticket/index', {verifynumber:request.session.supportmobile, mobilebool:false,otpbool:true,tablebool:false,addbool:false});
+        }
+    } else {
+        response.render('supportticket/index', {mobilebool:true,otpbool:false,tablebool:false,addbool:false});
+    }
+    
 });
-
-
 module.exports = router;
